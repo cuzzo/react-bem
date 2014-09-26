@@ -5,6 +5,12 @@ var Test = React.createClass({
   bem_blocks: ["widget"],
   bem_modifiers: [],
 
+  bem_translate_class: function(bem_classes) {
+    return bem_classes.split(" ").map(function(className) {
+      return "translated-" + className;
+    });
+  },
+
   bem_render: function() {
     return (
       <header className="test">

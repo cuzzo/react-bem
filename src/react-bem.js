@@ -4,7 +4,7 @@ var BEMTransformer = function() {
     return child.props.modifiers.split(" ");
   };
 
-  this.build_bem_class = function(child, blocks, block_modifiers) {
+  this.build_bem_class = function(child, blocks, block_modifiers, translate) {
     var B = blocks,
         BM = block_modifiers,
         E = child.__proto__.tagName.toLowerCase(),
@@ -28,11 +28,20 @@ var BEMTransformer = function() {
       classes.push(b + "__" + E);
     }
 
-    return classes.join(" ");
+    var bem_classes = classes.join(" ");
+    return (typeof translate === "function")
+        ? translate(bem_classes)
+        : bem_classes;
   };
 
-  this.transform_child = function(child, blocks, block_modifiers) {
-    var bem_class = this.build_bem_class(child, blocks, block_modifiers);
+  this.transform_child = function(child, blocks, block_modifiers, translate) {
+    var bem_class = this.build_bem_class(
+        child,
+        blocks,
+        block_modifiers,
+        translate
+      );
+
     child.props.className = child.props.className
         ? child.props.className + " " + bem_class
         : bem_class;
@@ -41,7 +50,7 @@ var BEMTransformer = function() {
     if (typeof children !== "object") return;
 
     if (children.__proto__.tagName) {
-      this.transform_child(children, blocks, block_modifiers);
+      this.transform_child(children, blocks, block_modifiers, translate);
     }
 
     if (typeof children.props !== "object"
@@ -52,12 +61,12 @@ var BEMTransformer = function() {
     children = children.props.children;
     for (var index in children) {
       if (typeof children[index] !== "object") continue;
-      this.transform_child(children[index], blocks, block_modifiers);
+      this.transform_child(children[index], blocks, block_modifiers, translate);
     }
   };
 
-  this.transform = function(root, blocks, block_modifiers) {
-    this.transform_child(root, blocks, block_modifiers);
+  this.transform = function(root, blocks, block_modifiers, translate) {
+    this.transform_child(root, blocks, block_modifiers, translate);
     return root;
   };
 };
@@ -75,7 +84,8 @@ var ReactBEM = {
     return transformer.transform(
         this.bem_render(),
         this.bem_blocks,
-        this.bem_block_modifiers
+        this.bem_block_modifiers,
+        this.bem_translate_class
       );
   }
 };
