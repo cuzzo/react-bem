@@ -1,0 +1,25 @@
+{
+  "name": "react-bem",
+  "version": "0.0.1",
+  "homepage": "https://github.com/cuzzo/react-bem",
+  "authors": [
+    "Cuzzo Yahn <yahn007@outlook.com>"
+  ],
+  "description": "React automatic BEM class naming.",
+  "main": "main.js",
+  "keywords": [
+    "react",
+    "BEM"
+  ],
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "dist"
+  ],
+  "dependencies": {
+    "react": "~0.10.0"
+  }
+}
