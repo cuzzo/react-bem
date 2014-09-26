@@ -2,11 +2,8 @@
 var Test = React.createClass({
   mixins: [ReactBEM],
 
-  getInitialState: function() {
-    this.bem_blocks = ["widget"];
-    this.bem_block_modifiers = [];
-    return this;
-  },
+  bem_blocks: ["widget"],
+  bem_modifiers: [],
 
   bem_render: function() {
     return (

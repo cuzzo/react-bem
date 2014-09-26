@@ -65,6 +65,12 @@ var BEMTransformer = function() {
 var transformer = new BEMTransformer();
 
 var ReactBEM = {
+  getInitialState: function() {
+    this.bem_blocks = this.bem_blocks || [];
+    this.bem_block_modifiers = this.bem_block_modifiers || [];
+    return null;
+  },
+
   render: function() {
     return transformer.transform(
         this.bem_render(),
