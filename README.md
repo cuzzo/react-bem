@@ -44,6 +44,8 @@ Translates to:
 </header>
 ```
 
+You can see it live, how it attaches the BEM classes, [here](http://cuzzo.github.io/react-bem/example/ "React autogenerate BEM class names example")
+
 # License
 
 React BEM is free--as in BSD. Hack your heart out, hackers.
