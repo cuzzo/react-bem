@@ -4,10 +4,14 @@ var BEMTransformer = function() {
     return child.props.modifiers.split(" ");
   };
 
+  this.get_tag_name = function(child) {
+    return child.type.displayName.toLowerCase().replace("reactdom", "");
+  };
+
   this.build_bem_class = function(child, blocks, block_modifiers, translate) {
     var B = blocks,
         BM = block_modifiers,
-        E = child.__proto__.tagName.toLowerCase(),
+        E = this.get_tag_name(child),
         EM = this.get_child_modifiers(child);
 
     var classes = [];
@@ -42,9 +46,11 @@ var BEMTransformer = function() {
         translate
       );
 
-    child.props.className = child.props.className
-        ? child.props.className + " " + bem_class
-        : bem_class;
+    if (bem_class) {
+      child.props.className = child.props.className
+          ? child.props.className + " " + bem_class
+          : bem_class;
+    }
 
     var children = child.props.children;
     if (typeof children !== "object") return;
@@ -53,16 +59,13 @@ var BEMTransformer = function() {
       this.transform_child(children, blocks, block_modifiers, translate);
     }
 
-    if (typeof children.props !== "object"
-        || typeof children.props.children !== "object") {
-      return;
+    if (typeof children.props === "object") {
+      children = children.props.children;
     }
 
-    children = children.props.children;
-    for (var index in children) {
-      if (typeof children[index] !== "object") continue;
-      this.transform_child(children[index], blocks, block_modifiers, translate);
-    }
+    React.Children.forEach(children, function(child) {
+      this.transform_child(child, blocks, block_modifiers, translate);
+    }.bind(this));
   };
 
   this.transform = function(root, blocks, block_modifiers, translate) {
