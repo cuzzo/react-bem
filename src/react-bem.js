@@ -64,6 +64,7 @@ var BEMTransformer = function() {
     }
 
     React.Children.forEach(children, function(child) {
+      if (!child.type.displayName) return;
       this.transform_child(child, blocks, block_modifiers, translate);
     }.bind(this));
   };
