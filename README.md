@@ -31,14 +31,12 @@ Translates to:
 
 ```html
 <header class="no-overwrite widget--christmas__header widget__header" data-reactid=".0">
-
     <h1 class="widget--christmas__h1 widget__h1" data-reactid=".0.0">
         <span class="widget--christmas__span--blinking widget--christmas__span widget__span--blinking widget__span" data-reactid=".0.0.0"></span>
         <span data-reactid=".0.0.1">
              This is the Header
         </span>
     </h1>
-
 </header>
 ```
 
@@ -69,14 +67,12 @@ Translates to:
 
 ```html
 <header class="no-overwrite widget--christmas__header widget__header" data-reactid=".0">
-
     <h1 class="widget--christmas__title widget__title" role="title" data-reactid=".0.0">
         <span class="widget--christmas__span--blinking widget--christmas__span widget__span--blinking widget__span" data-reactid=".0.0.0"></span>
         <span data-reactid=".0.0.1">
              This is the Header
         </span>
     </h1>
-
 </header>
 ```
 
@@ -103,14 +99,12 @@ Translates to:
 
 ```html
 <header class="no-overwrite widget--christmas__header widget__header" data-reactid=".0">
-
     <h1 class="widget--christmas__title widget__title" role="somerole" data-reactid=".0.0">
         <span class="widget--christmas__span--blinking widget--christmas__span widget__span--blinking widget__span" data-reactid=".0.0.0"></span>
         <span data-reactid=".0.0.1">
              This is the Header
         </span>
     </h1>
-
 </header>
 ```
 
