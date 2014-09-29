@@ -35,9 +35,7 @@ Translates to:
     <h1 class="widget--christmas__h1 widget__h1" data-reactid=".0.0">
         <span class="widget--christmas__span--blinking widget--christmas__span widget__span--blinking widget__span" data-reactid=".0.0.0"></span>
         <span data-reactid=".0.0.1">
-
              This is the Header
-
         </span>
     </h1>
 
@@ -60,7 +58,7 @@ var Header = React.createClass({
   bem_render: function() {
     return (
       <header className="no-overwrite">
-        <h1 bem_element="title"><span modifiers="blinking">HEADER:</span> This is the Header</h1>
+        <h1 role="title"><span modifiers="blinking">HEADER:</span> This is the Header</h1>
       </header>
     );
   }
@@ -72,12 +70,44 @@ Translates to:
 ```html
 <header class="no-overwrite widget--christmas__header widget__header" data-reactid=".0">
 
-    <h1 class="widget--christmas__title widget__title" data-reactid=".0.0">
+    <h1 class="widget--christmas__title widget__title" role="title" data-reactid=".0.0">
         <span class="widget--christmas__span--blinking widget--christmas__span widget__span--blinking widget__span" data-reactid=".0.0.0"></span>
         <span data-reactid=".0.0.1">
-
              This is the Header
+        </span>
+    </h1>
 
+</header>
+```
+
+There's a lot of reasons why you should be styling with **more** than just the class attribute. But say you want to define a role and use something different for your BEM element. Or say you just have a religion about not using the role attribute. Fine.
+
+```javascript
+var Header = React.createClass({
+  mixins: [ReactBEM],
+
+  bem_blocks: ["widget"],
+  bem_block_modifiers: ["christmas"],
+
+  bem_render: function() {
+    return (
+      <header className="no-overwrite">
+        <h1 role="somerole" bem_element="title"><span modifiers="blinking">HEADER:</span> This is the Header</h1>
+      </header>
+    );
+  }
+});
+```
+
+Translates to:
+
+```html
+<header class="no-overwrite widget--christmas__header widget__header" data-reactid=".0">
+
+    <h1 class="widget--christmas__title widget__title" role="somerole" data-reactid=".0.0">
+        <span class="widget--christmas__span--blinking widget--christmas__span widget__span--blinking widget__span" data-reactid=".0.0.0"></span>
+        <span data-reactid=".0.0.1">
+             This is the Header
         </span>
     </h1>
 

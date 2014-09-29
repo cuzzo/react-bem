@@ -13,10 +13,21 @@ var BEMTransformer = function() {
     return child.type.displayName.toLowerCase().replace("reactdom", "");
   };
 
+  this.get_child_bem_role = function(child) {
+    if (typeof child.props.role !== "string") return null;
+    return child.props.role;
+  };
+
+  this.get_child_element = function(child) {
+    return this.get_child_bem_role(child)
+        || this.get_child_bem_element(child)
+        || this.get_tag_name(child);
+  };
+
   this.build_bem_class = function(child, blocks, block_modifiers, translate) {
     var B = blocks,
         BM = block_modifiers,
-        E = this.get_child_bem_element(child) || this.get_tag_name(child),
+        E = this.get_child_element(child),
         EM = this.get_child_modifiers(child);
 
     var classes = [];
