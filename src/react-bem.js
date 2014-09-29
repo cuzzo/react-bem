@@ -4,6 +4,11 @@ var BEMTransformer = function() {
     return child.props.modifiers.split(" ");
   };
 
+  this.get_child_bem_element = function(child) {
+    if (typeof child.props.bem_element !== "string") return null;
+    return child.props.bem_element;
+  };
+
   this.get_tag_name = function(child) {
     return child.type.displayName.toLowerCase().replace("reactdom", "");
   };
@@ -11,7 +16,7 @@ var BEMTransformer = function() {
   this.build_bem_class = function(child, blocks, block_modifiers, translate) {
     var B = blocks,
         BM = block_modifiers,
-        E = this.get_tag_name(child),
+        E = this.get_child_bem_element(child) || this.get_tag_name(child),
         EM = this.get_child_modifiers(child);
 
     var classes = [];
