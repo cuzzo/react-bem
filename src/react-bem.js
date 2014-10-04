@@ -19,8 +19,8 @@ var BEMTransformer = function() {
   };
 
   this.get_child_element = function(child) {
-    return this.get_child_bem_role(child)
-        || this.get_child_bem_element(child)
+    return this.get_child_bem_element(child)
+        || this.get_child_bem_role(child)
         || this.get_tag_name(child);
   };
 

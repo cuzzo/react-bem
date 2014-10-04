@@ -21,5 +21,10 @@
   ],
   "dependencies": {
     "react": "~0.10.0"
+  },
+  "devDependencies": {
+    "mocha": "1.21.4",
+    "chai": "1.9.1",
+    "sinon": "http://sinonjs.org/releases/sinon-1.9.0.js"
   }
 }
