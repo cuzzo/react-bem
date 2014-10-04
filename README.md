@@ -6,6 +6,12 @@ BEM class names are systematic. So why write them yourself?
 
 React BEM automatically generates BEM style classes on React components... So you don't have to.
 
+# Installation
+
+```bash
+npm install react-auto-bem
+```
+
 # Example
 
 JSX Component:
