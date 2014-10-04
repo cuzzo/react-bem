@@ -16,7 +16,6 @@ describe("Completer Integration Tests", function() {
         bem_class_name
       );
 
-    console.log("EXISTS?", bem_class_name, tag_name, el);
     chai.assert.equal(el.type.displayName, tag_name);
   };
 
@@ -419,4 +418,33 @@ describe("Completer Integration Tests", function() {
       unmount_component(component);
     });
   });
+
+  describe("Translation Tests", function() {
+    it("Should translate class name", function() {
+      var SimpleComponent = React.createClass({
+        mixins: [ReactBEM],
+
+        bem_blocks: ["widget", "slider"],
+
+        bem_translate_class: function(bem_classes) {
+          return bem_classes.split(" ").map(function(class_name) {
+            return "translated-" + class_name;
+          }).join(" ");
+        },
+
+        bem_render: function() {
+          return React.DOM.header({className: "no-overwrite"});
+        }
+      });
+
+      var component = connect(SimpleComponent);
+      chai.assert.bem_not_exists(component, "widget__header", "header");
+      chai.assert.bem_not_exists(component, "slider__header", "header");
+      chai.assert.bem_exists(component, "translated-widget__header", "header");
+      chai.assert.bem_exists(component, "translated-slider__header", "header");
+      chai.assert.bem_exists(component, "no-overwrite", "header");
+      unmount_component(component);
+    });
+  });
 });
+
