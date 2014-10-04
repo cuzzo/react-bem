@@ -15,7 +15,6 @@
   },
   "scripts": {
     "postinstall": "bower install; grunt dist",
-    "test": "grunt test"
   },
   "licenses": [
     {
