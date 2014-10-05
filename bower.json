@@ -17,7 +17,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "dist"
+    "dist",
+    "Gruntfile.js",
+    "example"
   ],
   "dependencies": {
     "react": "~0.10.0"

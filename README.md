@@ -9,7 +9,7 @@ React BEM automatically generates BEM style classes on React components... So yo
 # Installation
 
 ```bash
-npm install react-auto-bem
+bower install react-bem
 ```
 
 # Example
