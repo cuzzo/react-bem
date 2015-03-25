@@ -1,7 +1,7 @@
 {
   "name": "react-auto-bem",
   "description": "React automatic BEM class naming.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/cuzzo/react-bem",
   "dependencies": {
     "underscore": "~1.5.2"
