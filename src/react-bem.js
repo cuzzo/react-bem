@@ -33,19 +33,23 @@ var BEMTransformer = function() {
     var classes = [];
     for (var b in B) {
       b = B[b];
-      for (var bm in BM) {
-        bm = BM[bm];
-        for (var em in EM) {
-          em = EM[em];
-          classes.push(b + "--" + bm + "__" + E + "--" + em);
-        }
-        classes.push(b + "--" + bm + "__" + E);
-      }
+
+      classes.push(b + "__" + E);
+
       for (var em in EM) {
         em = EM[em];
         classes.push(b + "__" + E + "--" + em);
       }
-      classes.push(b + "__" + E);
+
+      for (var bm in BM) {
+        bm = BM[bm];
+
+        classes.push(b + "--" + bm + "__" + E);
+        for (var em in EM) {
+          em = EM[em];
+          classes.push(b + "--" + bm + "__" + E + "--" + em);
+        }
+      }
     }
 
     var bem_classes = classes.join(" ");

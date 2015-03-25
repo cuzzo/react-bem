@@ -446,5 +446,35 @@ describe("Completer Integration Tests", function() {
       unmount_component(component);
     });
   });
+
+  describe("Order Tests", function() {
+    it("Should order classes properly for overrides to work", function() {
+      var SimpleComponent = React.createClass({
+        mixins: [ReactBEM],
+
+        bem_blocks: ["widget"],
+        bem_block_modifiers: ["christmas"],
+
+        bem_render: function() {
+          return React.DOM.header({
+            modifiers: "blinking"
+          });
+        }
+      });
+
+      var component = connect(SimpleComponent),
+          els = TestUtils.scryRenderedDOMComponentsWithTag(component, "header"),
+          header = els[0].getDOMNode(),
+          classList = header.classList;
+
+      chai.assert.equal(header.classList.length, 4);
+      chai.assert.equal(header.classList[0], "widget__header");
+      chai.assert.equal(header.classList[1], "widget__header--blinking");
+      chai.assert.equal(header.classList[2], "widget--christmas__header");
+      chai.assert.equal(header.classList[3], "widget--christmas__header--blinking");
+
+      unmount_component(component);
+    });
+  });
 });
 
