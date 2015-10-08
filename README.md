@@ -114,6 +114,14 @@ Translates to:
 </header>
 ```
 
+Other Resources
+---------------
+* [react-bem-helper](https://github.com/marcohamersma/react-bem-helper "React BEM Helper") - A React BEM Helper.
+* [bem-classnames](https://github.com/pocotan001/bem-classnames "React BEM class name manager") - A React BEM class name manager.
+* [bem-cn](https://github.com/albburtsev/bem-cn "React BEM class name generator") - A React BEM class name generator.
+* [b_](https://github.com/azproduction/b_ "React BEM class name formatter") - A React class name formatter.
+
+
 # License
 
 React BEM is free--as in BSD. Hack your heart out, hackers.
