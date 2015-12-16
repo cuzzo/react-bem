@@ -88,7 +88,7 @@ var BEMTransformer = function() {
       }
     }
   
-    for (var key of Object.keys(props)) {
+    for (var key in Object.keys(props)) {
       if (key == 'children') continue
       var value = props[key]
       if (React.isValidElement(value)) {
@@ -125,7 +125,7 @@ var BEMTransformer = function() {
 
 var transformer = new BEMTransformer();
 
-var ReactBEM = {
+ReactBEM = {
   getInitialState: function() {
     this.bem_blocks = this.bem_blocks || [];
     this.bem_block_modifiers = this.bem_block_modifiers || [];
