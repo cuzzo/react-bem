@@ -75,24 +75,24 @@ var BEMTransformer = function() {
   };
 
   this.transformElementProps = function(props, fn, blocks, block_modifiers, translate) {
-    const changes = {}
+    var changes = {}
 
     if (typeof props.children === 'object') {
-      const children = React.Children.toArray(props.children)
-      const transformedChildren = children.map(function (a) {
+      var children = React.Children.toArray(props.children)
+      var transformedChildren = children.map(function (a) {
         return fn(a, blocks, block_modifiers, translate);
       });
 
-      if (transformedChildren.some((transformed, i) => transformed != children[i])) {
+      if (transformedChildren.some(function (transformed, i) { return transformed != children[i] })) {
         changes.children = transformedChildren
       }
     }
   
-    for (let key of Object.keys(props)) {
+    for (var key of Object.keys(props)) {
       if (key == 'children') continue
-      const value = props[key]
+      var value = props[key]
       if (React.isValidElement(value)) {
-        const transformed = fn(value, blocks, block_modifiers, translate)
+        var transformed = fn(value, blocks, block_modifiers, translate)
         if (transformed !== value) {
           changes[key] = transformed
         }
@@ -102,19 +102,18 @@ var BEMTransformer = function() {
     return changes
   }
 
-  this.transformChild = function(element, blocks, block_modifiers, translate) {
+  this.transform = function(element, blocks, block_modifiers, translate) {
     if (typeof element !== 'object') return element
 
-    const changes = this.transformElementProps(
+    var changes = this.transformElementProps(
       element.props,
-      this.transformChild,
+      this.transform,
       blocks, block_modifiers, translate
     )
 
-
     var suffixClasses = (element.props.className ? element.props.className : '');
 
-    changes.className = `${this.build_bem_class(element, blocks, block_modifiers, translate)} ${suffixClasses}`
+    changes.className = this.build_bem_class(element, blocks, block_modifiers, translate) + ' ' + suffixClasses;
 
     return (
       Object.keys(changes).length === 0
