@@ -1,4 +1,4 @@
-# React BEM
+# React BEM [![Build Status](https://travis-ci.org/cuzzo/react-bem.svg?branch=master)](https://travis-ci.org/cuzzo/react-bem)
 
 BEM class names are systematic. So why write them yourself?
 
