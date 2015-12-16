@@ -16,7 +16,7 @@ var Test = React.createClass({
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  React.renderComponent(
+  ReactDOM.render(
     <Test />,
     document.getElementsByTagName("body")[0]
   );
