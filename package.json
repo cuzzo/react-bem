@@ -13,7 +13,8 @@
     "grunt-mocha": "~0.4.7"
   },
   "scripts": {
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "test": "grunt test"
   },
   "licenses": [
     {
