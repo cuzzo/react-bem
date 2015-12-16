@@ -1,9 +1,6 @@
 var BEMTransformer = function() {
   this.get_child_modifiers = function(child) {
-    if (typeof child === "string")
-      return [];
-
-    if (typeof child.props.modifiers !== "string") return [];
+    if (typeof child === "string" || typeof child.props.modifiers !== "string") return [];
     return child.props.modifiers.split(" ");
   };
 
@@ -20,7 +17,7 @@ var BEMTransformer = function() {
       name = child.type.displayName
     }
 
-    return name.toLowerCase().replace("reactdom", "");
+    return name.toLowerCase().replace("reactdom", "")
   };
 
   this.get_child_bem_role = function(child) {
@@ -33,13 +30,13 @@ var BEMTransformer = function() {
       return child;
 
     if (this.get_child_bem_element(child) != null) {
-      return this.get_child_bem_element(child);
+      return this.get_child_bem_element(child)
     } else if (this.get_child_bem_role(child) != null) {
-      return this.get_child_bem_role(child);
+      return this.get_child_bem_role(child)
     } else if (this.get_tag_name(child) != null) {
-      return this.get_tag_name(child);
+      return this.get_tag_name(child)
     } else {
-      return '';
+      return ''
     }
   };
 
