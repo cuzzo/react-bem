@@ -7,8 +7,20 @@ describe("Completer Integration Tests", function() {
   };
 
   var unmount_component = function(component) {
-    React.unmountComponentAtNode(component.getDOMNode().parent);
+    React.unmountComponentAtNode(component.getDOMNode().parentNode);
   };
+
+  var getTypeOfDomNode = function (el) {
+    var reactComponent = el._reactInternalComponent._currentElement;
+    var name = '';
+    if (typeof reactComponent.type === "string") {
+      name = reactComponent.type
+    } else {
+      name = reactComponent.type.displayName
+    }
+
+    return name;
+  }
 
   chai.assert.bem_exists = function(component, bem_class_name, tag_name) {
     var el = TestUtils.findRenderedDOMComponentWithClass(
@@ -16,7 +28,7 @@ describe("Completer Integration Tests", function() {
         bem_class_name
       );
 
-    chai.assert.equal(el.type.displayName, tag_name);
+    chai.assert.equal(getTypeOfDomNode(el), tag_name);
   };
 
   chai.assert.bem_not_exists = function(component, bem_class_name) {
@@ -464,7 +476,7 @@ describe("Completer Integration Tests", function() {
 
       var component = connect(SimpleComponent),
           els = TestUtils.scryRenderedDOMComponentsWithTag(component, "header"),
-          header = ReactDOM.getDOMNode(els[0]),
+          header = ReactDOM.findDOMNode(els[0]),
           classList = header.classList;
 
       chai.assert.equal(header.classList.length, 4);
