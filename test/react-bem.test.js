@@ -3,7 +3,7 @@ describe("Completer Integration Tests", function() {
   var TestUtils = React.addons.TestUtils;
 
   var connect = function(Component) {
-    return TestUtils.renderIntoDocument(Component());
+    return TestUtils.renderIntoDocument(React.createElement(Component));
   };
 
   var unmount_component = function(component) {
@@ -464,7 +464,7 @@ describe("Completer Integration Tests", function() {
 
       var component = connect(SimpleComponent),
           els = TestUtils.scryRenderedDOMComponentsWithTag(component, "header"),
-          header = els[0].getDOMNode(),
+          header = ReactDOM.getDOMNode(els[0]),
           classList = header.classList;
 
       chai.assert.equal(header.classList.length, 4);
