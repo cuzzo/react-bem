@@ -3,9 +3,6 @@
   "description": "React automatic BEM class naming.",
   "version": "0.0.2",
   "homepage": "https://github.com/cuzzo/react-bem",
-  "dependencies": {
-    "underscore": "~1.5.2"
-  },
   "devDependencies": {
     "bower": "~1.3.2",
     "grunt": "~0.4.1",
