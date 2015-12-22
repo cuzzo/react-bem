@@ -22,7 +22,7 @@
     "example"
   ],
   "dependencies": {
-    "react": "~0.10.0"
+    "react": "~0.14.3"
   },
   "devDependencies": {
     "mocha": "1.21.4",
@@ -30,3 +30,4 @@
     "sinon": "http://sinonjs.org/releases/sinon-1.9.0.js"
   }
 }
+

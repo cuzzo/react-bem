@@ -1,6 +1,6 @@
 var BEMTransformer = function() {
   this.get_child_modifiers = function(child) {
-    if (typeof child.props.modifiers !== "string") return [];
+    if (typeof child === "string" || !child.props.modifiers) return [];
     return child.props.modifiers.split(" ");
   };
 
@@ -9,8 +9,12 @@ var BEMTransformer = function() {
     return child.props.bem_element;
   };
 
-  this.get_tag_name = function(child) {
-    return child.type.displayName.toLowerCase().replace("reactdom", "");
+  this.get_child_tag_name = function(child) {
+    var name = (typeof child.type === "string")
+        ? child.type
+        : child.type.displayName;
+
+    return name.toLowerCase().replace("reactdom", "");
   };
 
   this.get_child_bem_role = function(child) {
@@ -19,9 +23,11 @@ var BEMTransformer = function() {
   };
 
   this.get_child_element = function(child) {
+    if (typeof child === "string") return child;
     return this.get_child_bem_element(child)
         || this.get_child_bem_role(child)
-        || this.get_tag_name(child);
+        || this.get_child_tag_name(child)
+        || "";
   };
 
   this.build_bem_class = function(child, blocks, block_modifiers, translate) {
@@ -58,46 +64,64 @@ var BEMTransformer = function() {
         : bem_classes;
   };
 
-  this.transform_child = function(child, blocks, block_modifiers, translate) {
-    var bem_class = this.build_bem_class(
-        child,
-        blocks,
-        block_modifiers,
-        translate
-      );
+  this.transform_props = function(props, blocks, block_modifiers, translate) {
+    var changes = {};
 
-    if (bem_class) {
-      child.props.className = child.props.className
-          ? child.props.className + " " + bem_class
-          : bem_class;
+    if (typeof props.children === "object") {
+      var children = React.Children.toArray(props.children),
+
+      transformed_children = children.map(function (child) {
+        return this.transform(child, blocks, block_modifiers, translate);
+      }.bind(this)),
+
+      is_untransformed = function (transformed, i) {
+        return transformed !== children[i];
+      };
+
+      if (transformed_children.some(is_untransformed)) {
+        changes.children = transformed_children;
+      }
     }
 
-    var children = child.props.children;
-    if (typeof children !== "object") return;
+    for (var key in Object.keys(props)) {
+      if (key === "children") continue;
 
-    if (children.__proto__.tagName) {
-      this.transform_child(children, blocks, block_modifiers, translate);
+      var child = props[key];
+      if (!React.isValidElement(child)) continue;
+
+      var new_child = this.transform(child, blocks, block_modifiers, translate);
+      if (new_child === child) continue;
+      changes[key] = new_child;
     }
 
-    if (typeof children.props === "object") {
-      children = children.props.children;
-    }
-
-    React.Children.forEach(children, function(child) {
-      if (!child.type.displayName) return;
-      this.transform_child(child, blocks, block_modifiers, translate);
-    }.bind(this));
+    return changes;
   };
 
-  this.transform = function(root, blocks, block_modifiers, translate) {
-    this.transform_child(root, blocks, block_modifiers, translate);
-    return root;
-  };
+  this.transform = function(element, blocks, block_modifiers, translate) {
+    if (typeof element !== "object") return element;
+
+    var changes =
+        this.transform_props(element.props, blocks, block_modifiers, translate);
+
+    var suffix_classes = element.props.className
+        ? element.props.className
+        : "";
+
+    changes.className = ""
+        + this.build_bem_class(element, blocks, block_modifiers, translate)
+        + " "
+        + suffix_classes;
+
+    var children = changes.children || element.props.children;
+    return (Object.keys(changes).length === 0)
+        ? element
+        : React.cloneElement(element, changes, children);
+  }.bind(this);
 };
 
 var transformer = new BEMTransformer();
 
-var ReactBEM = {
+ReactBEM = {
   getInitialState: function() {
     this.bem_blocks = this.bem_blocks || [];
     this.bem_block_modifiers = this.bem_block_modifiers || [];
