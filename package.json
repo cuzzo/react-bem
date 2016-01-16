@@ -1,20 +1,28 @@
 {
   "name": "react-auto-bem",
   "description": "React automatic BEM class naming.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "homepage": "https://github.com/cuzzo/react-bem",
+  "author": "Cuzzo Yahn",
   "devDependencies": {
-    "bower": "~1.3.2",
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1.7",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-react": "~0.12.3",
-    "grunt-lib-phantomjs": "~0.6",
-    "grunt-mocha": "~0.4.7"
+    "babel": "~6.3.26",
+    "babel-loader": "5.1.4",
+    "babel-plugin-react-display-name": "2.0.0",
+    "babel-plugin-react-transform": "1.1.1",
+    "babel-plugin-transform-decorators-legacy": "~1.3.4",
+    "babel-preset-es2015": "~6.3.13",
+    "babel-preset-react": "~6.3.13",
+    "babel-preset-stage-0": "~6.3.13",
+    "chai": "~3.4.1",
+    "cross-env": "1.0.6",
+    "jsdom": "~7.2.2",
+    "jsdom-test-browser": "~4.0.2",
+    "react": "~0.14.6",
+    "react-dom": "~0.14.6"
   },
   "scripts": {
-    "postinstall": "bower install",
-    "test": "grunt test"
+    "build": "babel src/react-bem.js --out-file dist/react-bem.js",
+    "test": "cross-env NODE_ENV=test mocha --reporter progress --compilers js:babel-core/register --recursive \"./test/**/*.spec.js\""
   },
   "licenses": [
     {

@@ -1,6 +1,6 @@
 {
   "name": "react-bem",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "homepage": "https://github.com/cuzzo/react-bem",
   "authors": [
     "Cuzzo Yahn <yahn007@outlook.com>"
@@ -18,16 +18,10 @@
     "bower_components",
     "test",
     "dist",
-    "Gruntfile.js",
     "example"
   ],
   "dependencies": {
-    "react": "~0.14.3"
-  },
-  "devDependencies": {
-    "mocha": "1.21.4",
-    "chai": "1.9.1",
-    "sinon": "http://sinonjs.org/releases/sinon-1.9.0.js"
+    "react": "~0.14.16"
   }
 }
 

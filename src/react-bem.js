@@ -1,4 +1,6 @@
-var BEMTransformer = function() {
+import React, { Component, PropTypes } from 'react';
+
+let BEMTransformer = function() {
   this.get_child_modifiers = function(child) {
     if (typeof child === "string" || !child.props.modifiers) return [];
     return child.props.modifiers.split(" ");
@@ -10,7 +12,7 @@ var BEMTransformer = function() {
   };
 
   this.get_child_tag_name = function(child) {
-    var name = (typeof child.type === "string")
+    let name = (typeof child.type === "string")
         ? child.type
         : child.type.displayName;
 
@@ -31,44 +33,44 @@ var BEMTransformer = function() {
   };
 
   this.build_bem_class = function(child, blocks, block_modifiers, translate) {
-    var B = blocks,
+    let B = blocks,
         BM = block_modifiers,
         E = this.get_child_element(child),
         EM = this.get_child_modifiers(child);
 
-    var classes = [];
-    for (var b in B) {
+    let classes = [];
+    for (let b in B) {
       b = B[b];
 
       classes.push(b + "__" + E);
 
-      for (var em in EM) {
+      for (let em in EM) {
         em = EM[em];
         classes.push(b + "__" + E + "--" + em);
       }
 
-      for (var bm in BM) {
+      for (let bm in BM) {
         bm = BM[bm];
 
         classes.push(b + "--" + bm + "__" + E);
-        for (var em in EM) {
+        for (let em in EM) {
           em = EM[em];
           classes.push(b + "--" + bm + "__" + E + "--" + em);
         }
       }
     }
 
-    var bem_classes = classes.join(" ");
+    let bem_classes = classes.join(" ");
     return (typeof translate === "function")
         ? translate(bem_classes)
         : bem_classes;
   };
 
   this.transform_props = function(props, blocks, block_modifiers, translate) {
-    var changes = {};
+    let changes = {};
 
     if (typeof props.children === "object") {
-      var children = React.Children.toArray(props.children),
+      let children = React.Children.toArray(props.children),
 
       transformed_children = children.map(function (child) {
         return this.transform(child, blocks, block_modifiers, translate);
@@ -83,13 +85,13 @@ var BEMTransformer = function() {
       }
     }
 
-    for (var key in Object.keys(props)) {
+    for (let key in Object.keys(props)) {
       if (key === "children") continue;
 
-      var child = props[key];
+      let child = props[key];
       if (!React.isValidElement(child)) continue;
 
-      var new_child = this.transform(child, blocks, block_modifiers, translate);
+      let new_child = this.transform(child, blocks, block_modifiers, translate);
       if (new_child === child) continue;
       changes[key] = new_child;
     }
@@ -100,10 +102,10 @@ var BEMTransformer = function() {
   this.transform = function(element, blocks, block_modifiers, translate) {
     if (typeof element !== "object") return element;
 
-    var changes =
+    let changes =
         this.transform_props(element.props, blocks, block_modifiers, translate);
 
-    var suffix_classes = element.props.className
+    let suffix_classes = element.props.className
         ? element.props.className
         : "";
 
@@ -112,28 +114,35 @@ var BEMTransformer = function() {
         + " "
         + suffix_classes;
 
-    var children = changes.children || element.props.children;
+    let children = changes.children || element.props.children;
     return (Object.keys(changes).length === 0)
         ? element
         : React.cloneElement(element, changes, children);
   }.bind(this);
 };
 
-var transformer = new BEMTransformer();
+let transformer = new BEMTransformer();
 
-ReactBEM = {
-  getInitialState: function() {
-    this.bem_blocks = this.bem_blocks || [];
-    this.bem_block_modifiers = this.bem_block_modifiers || [];
-    return null;
-  },
+export default function withBEM() {
+  return (BaseComponent) => {
+    const old_render = BaseComponent.prototype.render;
 
-  render: function() {
-    return transformer.transform(
-        this.bem_render(),
-        this.bem_blocks,
-        this.bem_block_modifiers,
-        this.bem_translate_class
-      );
-  }
-};
+    return class TransformedComponent extends BaseComponent {
+      static contextTypes = {
+        bem_blocks: PropTypes.arrayOf(PropTypes.string),
+        bem_block_modifiers: PropTypes.arrayOf(PropTypes.string)
+      };
+
+      render() {
+        return (
+          transformer.transform(
+            old_render.apply(this),
+            this.props.bem_blocks,
+            this.props.bem_block_modifiers,
+            this.bem_translate_class
+          )
+        );
+      }
+    };
+  };
+}
